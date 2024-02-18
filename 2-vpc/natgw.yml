@@ -1,0 +1,29 @@
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: EIP
+metadata:
+  name: dev-nat
+  labels:
+    name: dev-nat
+spec:
+  forProvider:
+    region: eu-west-2
+    vpc: true
+    tags:
+      Name: dev-nat
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: NATGateway
+metadata:
+  name: dev-nat
+spec:
+  forProvider:
+    region: eu-west-2
+    connectivityType: public        
+    allocationIdRef:
+      name: dev-nat
+    subnetIdSelector: 
+      matchLabels:
+        name: dev-public-eu-west-2a
+    tags:
+      Name: dev-nat
